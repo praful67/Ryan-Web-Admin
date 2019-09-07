@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Ryan Cab Admin</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/logo.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/logo.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/logo.png">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+                   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="styles.css">
+           <link rel="stylesheet" href="noticss.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      <style>
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: aquamarine; 
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: aqua; 
+}
+</style>
+      <style>
+.demo-card-wide.mdl-card {
+  width: 512px;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+</style>
+  </head>
+  <body>
+       <dialog class="mdl-dialog" id="dialogR">
+    <div class="mdl-dialog__content">
+      <h6>
+       Do you want to remove this driver ? 
+      </h6>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button ok" id="ok">Ok</button>
+                        <div class="mdl-spinner mdl-js-spinner is-active" id="loading"></div>
+
+      <button type="button" class="mdl-button close" >Cancel</button>
+
+        
+    </div>
+  </dialog>
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+        <a onclick="goBack()" style="cursor: pointer;">
+        <i class="mdl-color-text--white material-icons" 
+           style = "margin-right: 20px;
+                    margin-left: -50px;
+                    margin-top: 5px;
+                    font-size: 30px;">keyboard_backspace
+</i> </a>
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>  <span class="mdl-layout-title">Driver details</span>
+   
+<div class="mdl-layout-spacer"></div>
+        
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+            <i class="material-icons">more_vert</i>
+          </button>
+          <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+            <li class="mdl-menu__item" id="remove">Remove</li>
+            <li class="mdl-menu__item" id="edit">Edit</li>
+            <li class="mdl-menu__item">Change Address</li>
+            <li class="mdl-menu__item" id="map">Find in Map</li>
+          </ul>
+                      
+    </div>
+  </header>
+          <script>
+
+             $("#edit").click(function(){
+window.location.href = "editdriver.html";
+                 
+             });
+               $("#map").click(function(){
+window.location.href = "finddriver.html";
+                 
+             });
+          </script>
+ 
+  <main class="mdl-layout__content">
+  <div class="row" style="margin-top: 100px;">
+          
+          <div class = "col-md-6" style="text-align: right;">
+    <h6>Username</h6>
+              <br>
+    <h6>Password</h6><br>
+    <h6>Address</h6><br>
+    <h6>Phone</h6><br>
+    <h6>Vendor</h6><br>
+    <h6>Current Status</h6><br>
+   
+               </div>
+
+           <div class = "col-md-6">
+               <h6 id="username"></h6><br>
+               <h6 id="password"></h6><br>
+               <h6 id="address"></h6><br>
+               <h6 id="phone"></h6><br>
+               <h6 id="vendor"></h6><br>
+               <h6 id="currentS"></h6><br>
+                              </div>
+
+           
+      </div>
+    <div class="page-content">
+
+        
+      </div>
+  </main>
+</div>
+          <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    
+      
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+          <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+   
+    
+    
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCpRhD92WfydDVVHsct8Lj7GezcPluxs7E",
+    authDomain: "fireapp-85b69.firebaseapp.com",
+    databaseURL: "https://fireapp-85b69.firebaseio.com",
+    projectId: "fireapp-85b69",
+    storageBucket: "fireapp-85b69.appspot.com",
+    messagingSenderId: "94375315405"
+  };
+  firebase.initializeApp(config);
+    firebase.database().ref('Admin')
+    .on('value', function(snapshot) {
+      if(snapshot != null){
+              var valueU = snapshot.child("logged").val();
+             if(valueU != null)
+                  {
+                      if(valueU == "no")
+                          {
+      window.location.href = "login.html";
+                          }
+                  }
+      else{
+                window.location.href = "login.html";
+      }
+  }
+}); 
+             var driverid = localStorage.getItem("driverid");
+
+firebase.database().ref().child("SignedDrivers").child(driverid).on('value', function(snapshot) {
+
+     
+     var username = snapshot.child("username").val();
+    var phone = snapshot.child("phone").val();
+    var tendor = snapshot.child("company").val();
+    var address = snapshot.child("address").val();
+    var password = snapshot.child("password").val();
+     var id = snapshot.child("id").val();
+    $("#username").text(username);
+    $("#phone").text(phone);
+    $("#vendor").text(tendor);
+    $("#address").text(address);
+    $("#password").text(password);
+   
+        
+});
+     
+   
+firebase.database().ref().child("RidestartandendD").child(driverid).on('value', function(snapshot) {
+     
+    if(snapshot.child("status").val() == "RideStarted")
+        {
+            var timestart = snapshot.child("time").val();
+            $("#currentS").text("Ride Started on "+timestart).css("color", "blue");
+        }
+    else
+    {
+             var timeend = snapshot.child("time").val();
+            $("#currentS").text("Ride Ended on "+timeend).css("color", "Red");
+            }
+   
+        
+});
+    
+               
+$("#remove").click(function(){
+    
+              var dialog = document.querySelector('#dialogR');
+   var loading = document.getElementById("loading");
+            loading.style.display = "none";
+          loading.style.visibility = "hidden";
+   
+         dialog.showModal();
+   var ok = document.getElementById("ok");
+
+    dialog.querySelector('.close').addEventListener('click', function() {
+         
+     dialog.close();
+    });
+             dialog.querySelector('.ok').addEventListener('click', function() {
+    
+                  ok.style.display = "none";
+       
+                 loading.style.visibility = "visible";
+       
+                 loading.style.display = "block";
+               
+           firebase.database().ref().child("DriverprivateCars").child(driverid).remove().then(function() {
+   
+           }).catch(function(error) {
+        
+                     alert("Remove failed: " + error.message);
+   
+                 });
+                 firebase.database().ref().child("DriverUpdates").child(driverid).remove().then(function() {
+   
+           }).catch(function(error) {
+        
+                     alert("Remove failed: " + error.message);
+   
+                 });
+                 firebase.database().ref().child("Drivers").child(driverid).remove().then(function() {
+   
+           }).catch(function(error) {
+        
+                     alert("Remove failed: " + error.message);
+   
+                 });
+                  firebase.database().ref().child("Drivers Info").child(driverid).remove().then(function() {
+   
+           }).catch(function(error) {
+        
+                     alert("Remove failed: " + error.message);
+   
+                 });
+                 firebase.database().ref().child("Driverselection") .child("login").child(driverid).remove().then(function() {
+   
+           }).catch(function(error) {
+        
+                     alert("Remove failed: " + error.message);
+   
+                 });
+                  firebase.database().ref().child("Driverselection") .child("logout").child(driverid).remove().then(function() {
+   
+           }).catch(function(error) {
+        
+                     alert("Remove failed: " + error.message);
+   
+                 }); 
+                 
+               firebase.database().ref().child("SignedDrivers").child(driverid).remove().then(function() {
+   
+                   loading.style.display = "none";
+                   ok.style.visibility = "visible";
+                   ok.style.display = "block";
+                     dialog.close();
+   
+                 }).catch(function(error) {
+        
+                     alert("Remove failed: " + error.message);
+   
+                 });
+    
+             });
+   
+    
+});   
+      </script>
+                <script  src="notijs.js"></script>
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

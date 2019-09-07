@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Ryan Cab Admin</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/logo.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/logo.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/logo.png">
+
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="noticss.css">
+      <style>
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: aquamarine; 
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: aqua; 
+}
+</style>
+ 
+     <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+         .notification-counterTO {   
+    position: relative;
+    top: -2px;
+    left: -42px;
+    
+    background-color: brown;
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 3px;
+    font: 8px Verdana;
+}
+          .notification-counterFC {   
+    position: relative;
+    top: -2px;
+    left: -42px;
+    
+/*
+ background-color: rgba(212, 19, 13, 1);
+*/
+    background-color: brown;
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 3px;
+    font: 8px Verdana;
+}
+      
+    </style>
+  </head>
+  <body>
+       <dialog class="mdl-dialog">
+    <div class="mdl-dialog__content">
+      <h5>
+       Select One from below
+      </h5>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button emp" style="width: 100%;">Create Emp Credentials</button>
+      <button type="button" class="mdl-button driver"style="width: 100%;margin-top: 5px;" >Create Driver Credentials</button>
+      <button type="button" class="mdl-button close" ><i class="material-icons">close</i></button>
+
+        
+    </div>
+  </dialog>
+       <dialog class="mdl-dialog" id="Sos">
+    <div class="mdl-dialog__content">
+      <h5>
+       SOS
+      </h5>
+   
+           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="CN">
+    <label class="mdl-textfield__label" for="CN">Calling Number</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="SN">
+    <label class="mdl-textfield__label" for="SN">Sms Number</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+        <p id="current"> </p>
+         </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button close" ><i class="material-icons">close</i></button>
+      <button type="button" class="mdl-button set">Set</button>
+
+        
+    </div>
+  </dialog>
+      
+       <dialog class="mdl-dialog" id="PC">
+    <div class="mdl-dialog__content">
+      <h5>
+      Change Password
+      </h5>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="password" id="CP">
+    <label class="mdl-textfield__label" for="CP">Current Password</label>
+  </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="password" id="NP">
+    <label class="mdl-textfield__label" for="NP">New Password</label>
+  </div>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button close" ><i class="material-icons">close</i></button>
+              <button type="button" class="mdl-button change">CHANGE</button>
+
+
+        
+    </div>
+  </dialog>
+     
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">Home</span>
+            
+          <div class="mdl-layout-spacer"></div>
+        </div>
+          
+      </header>
+      <div class="mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+        <header class="demo-drawer-header">
+          <img src="images/user.jpg" class="demo-avatar">
+          <div class="demo-avatar-dropdown">
+            <span>ADMIN</span>
+            <div class="mdl-layout-spacer"></div>
+            <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+              <i class="material-icons" role="presentation">arrow_drop_down</i>
+              <span class="visuallyhidden">Accounts</span>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn" id="signout">
+              <li class="mdl-menu__item">SIGN OUT</li>
+            </ul>
+          </div>
+        </header>
+        <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800 ">
+          <a id="home" class="mdl-navigation__link mdl-color-text--white" href="index.html"><i style = "margin-right: 48px;"class="mdl-color-text--white material-icons" role="presentation">home</i>Home</a>
+          <a class="mdl-navigation__link  mdl-color-text--grey" href="employees.html"><i style = "margin-right: 48px;"class="mdl-color-text--grey material-icons" role="presentation">people</i>Employees</a>
+          <a class="mdl-navigation__link mdl-color-text--grey" href="drivers.html"><i class="mdl-color-text--grey material-icons"style = "margin-right: 48px;" role="presentation">account_circle</i>Drivers</a>
+          <a class="mdl-navigation__link mdl-color-text--grey" href="listofrostersets.html"><i style = "margin-right: 48px;"class="mdl-color-text--grey material-icons" role="presentation">local_taxi</i>Cab Rosting</a>
+              <a class="mdl-navigation__link mdl-color-text--grey" style = "cursor: pointer;" onclick="Sos()"><i class="mdl-color-text--grey material-icons" style = "margin-right: 48px;"role="presentation">call</i>SOS</a> 
+           
+          <a class="mdl-navigation__link mdl-color-text--grey" href="timeoff.html"><i class="mdl-color-text--grey material-icons" role="presentation">schedule</i> <span class="notification-counterTO" id="to">0</span>Time Offs</a>
+          <a class="mdl-navigation__link mdl-color-text--grey" href="comments.html"><i style = "margin-right: 37px;"class="mdl-color-text--grey material-icons" role="presentation">forum</i><span class="notification-counterFC" id="fc">0</span>Feedback and Comments</a>
+             <a class="mdl-navigation__link mdl-color-text--grey" style = "cursor: pointer;" onclick="fun()"><i class="mdl-color-text--grey material-icons"style = "margin-right: 48px;" role="presentation">add</i>Create</a>
+            <a class="mdl-navigation__link mdl-color-text--grey" style = "cursor: pointer;" onclick="Changepassword()"><i class="mdl-color-text--grey material-icons" style = "margin-right: 48px;"role="presentation">lock</i>Change Password</a>
+
+        </nav>
+      </div>
+         <script>
+function fun() {
+    var dialog = document.querySelector('dialog');
+        dialog.showModal();
+        dialog.querySelector('.driver').addEventListener('click', function() {
+        window.location.href = "createdrivers.html";
+    
+        });
+         dialog.querySelector('.emp').addEventListener('click', function() {
+       window.location.href = "createemployees.html";
+    
+        });
+     dialog.querySelector('.close').addEventListener('click', function() {
+        dialog.close();
+    
+        });
+}
+               var password ;
+            var current = document.getElementById("current");
+
+function Changepassword() {
+    var dialog = document.getElementById('PC');
+                     
+
+        dialog.showModal();
+      var CP = document.getElementById('CP');
+                 var NP = document.getElementById('NP');
+        dialog.querySelector('.change').addEventListener('click', function() {
+            
+           
+        });
+       
+     dialog.querySelector('.close').addEventListener('click', function() {
+         CP.value = "";
+         NP.value = "";
+        dialog.close();
+    
+        });
+}
+function Sos() {
+    var dialog = document.getElementById('Sos');
+        dialog.showModal();
+        dialog.querySelector('.set').addEventListener('click', function() {
+        });
+        
+     dialog.querySelector('.close').addEventListener('click', function() {
+        
+        dialog.close();
+    
+        });
+}
+        
+    </script>
+<div id="map">
+        
+        </div>
+    <script>
+      var map;
+           var centerOffice = {lat: 17.434810272796604, lng: 78.38469553738832};
+var centerOffice = new google.maps.LatLng(17.434810272796604, 78.38469553738832);
+
+        function CenterControl(controlDiv, map) {
+
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '22px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to recenter the map';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '38px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlText.innerHTML = 'Center Map';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function() {
+             map.setZoom(15);
+          map.panTo(centerOffice);
+        });
+        }
+         
+      function initMap() {
+          var demo = {lat: 17.451701665312275, lng: 78.53475641459227};
+          var demolatlng = new google.maps.LatLng(17.451701665312275, 80.93475641459227);
+          
+          map = new google.maps.Map(document.getElementById('map'), {
+          center: centerOffice,
+          zoom: 15
+          });
+          var marker = new google.maps.Marker({
+            map: map, 
+            title: "Office",
+              icon :'images/office.png',
+             /* icon :'https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=M&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1',
+             */ /*icon :'https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1',
+           */  
+              
+            animation: google.maps.Animation.DROP,
+            position: centerOffice
+        });
+           var content = 'MAIN OFFICE';
+
+        var infowindow = new google.maps.InfoWindow();
+
+       google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+           return function() {
+            
+        content.onclick = function(){alert(marker.title)};
+               infowindow.setContent(content);
+               infowindow.open(map,marker);
+           };
+       })(marker,content,infowindow));
+      
+        /*   
+          var marker = new google.maps.Marker({
+            map: map, 
+            title: "2",
+              animation: google.maps.Animation.DROP,
+            position: myLatLng2
+        });
+
+        var content = "Number: " + "2" + '</h3>';
+
+        var infowindow = new google.maps.InfoWindow()
+
+       google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+           return function() {
+               infowindow.setContent(content);
+               infowindow.open(map,marker);
+           };
+       })(marker,content,infowindow));
+      */    
+              
+        var centerControlDiv = document.createElement('div');
+        var centerControl = new CenterControl(centerControlDiv, map);
+
+        centerControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+     
+}
+        google.maps.event.addDomListener(window, 'load', initMap);
+
+function animatedMove(marker, n, current, moveto) {
+ 
+  var lat = current.lat();
+  var lng = current.lng();
+ var deltalat = (moveto.lat() - current.lat()) / 100;
+  var deltalng = (moveto.lng() - current.lng()) / 100;
+
+  for (var i = 0; i < 100; i++) {
+    (function(n) {
+      setTimeout(
+        function() {
+          var lat = marker.position.lat();
+          var lng = marker.position.lng();
+
+          lat += deltalat;
+          lng += deltalng;
+          latlng = new google.maps.LatLng(lat, lng);
+          marker.setPosition(latlng);
+          
+        }, 10 * n
+      );
+    })(i)
+  }
+
+}
+    </script>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaOwEHOt92dT2asjFuDUqzYMhbwB2WjFI&libraries=geometry&callback=initMap"
+    async defer></script>
+            
+
+    </div>
+          
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+      
+  
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCpRhD92WfydDVVHsct8Lj7GezcPluxs7E",
+    authDomain: "fireapp-85b69.firebaseapp.com",
+    databaseURL: "https://fireapp-85b69.firebaseio.com",
+    projectId: "fireapp-85b69",
+    storageBucket: "fireapp-85b69.appspot.com",
+    messagingSenderId: "94375315405"
+  };
+  firebase.initializeApp(config);
+    
+   
+    var signout = document.getElementById("signout");
+signout.addEventListener("click", myFunction);
+
+var updates = {};
+  updates['logged'] = "no";
+  firebase.database().ref('Admin')
+    .on('value', function(snapshot) {
+      if(snapshot != null){
+              var valueU = snapshot.child("logged").val();
+             if(valueU != null)
+                  {
+                      if(valueU == "no")
+                          {
+      window.location.href = "login.html";
+                          }
+                  }
+      else{
+                window.location.href = "login.html";
+      }
+  }
+});
+    
+    var fc = document.getElementById("fc");
+    var to = document.getElementById("to");
+    
+    firebase.database().ref().child("Employee'sTimeoffs1").on('value', function(snapshot) {
+        var number1 = snapshot.child("number").val();
+        if(number1 == "0"){
+            to.style.visibility = "hidden";
+        }else {
+            to.style.visibility = "visible";
+               to.innerHTML = number1;
+
+        }
+
+    });
+     firebase.database().ref().child("Employee'sComments1").on('value', function(snapshot) {
+        var number = snapshot.child("number").val();
+          if(number == "0"){
+            fc.style.visibility = "hidden";
+        }else {
+            fc.style.visibility = "visible";
+                   fc.innerHTML = number;
+ 
+        }
+    });
+
+    
+    var markers = {};
+
+firebase.database().ref().child("Employees Info").on('value', function(snapshot) {
+ snapshot.forEach(function(childSnapshot) {
+     var lat1 = childSnapshot.child("lat").val();
+     var lng1 = childSnapshot.child("lng").val();
+     var id = childSnapshot.key;
+             firebase.database().ref().child("SignedEmployees").child(id).on('value', function(snapshot) {
+                             var emposition = {lat: parseFloat(lat1), lng: parseFloat(lng1)};
+                            var myLatLng1 = {lat: 17.451701665312275, lng: 78.53475641459227};
+var finallatlng = new google.maps.LatLng( parseFloat(lat1),parseFloat(lng1));
+
+    var empname = snapshot.child("username").val();
+                 
+                 if(markers[id] != null)
+   { 
+        animatedMove(markers[id], 10, markers[id].position, finallatlng);
+   }
+else{
+    
+       markers[id] = new google.maps.Marker({
+            map: map,
+            id: id,
+         // icon : 'images/car.png',
+            title: "Employee : " +empname,
+            animation: google.maps.Animation.DROP,
+            position: emposition
+        });
+
+//      markers[id] = marker;
+                // alert(markers[id].position);
+        var content = 'Employee : ' +empname;
+
+        var infowindow = new google.maps.InfoWindow();
+
+         /* google.maps.event.addListener(markers[id],'click',function() {
+  map.setZoom(15);
+  map.panTo(markers[id].getPosition());
+  });*/
+   
+       google.maps.event.addListener(markers[id],'click', (function(marker,content,infowindow){ 
+           return function() {
+               infowindow.setContent(content);
+               infowindow.open(map,markers[id]);
+              
+           };
+       })(markers[id],content,infowindow));
+        }
+ });
+});
+    
+            
+    // animatedMove(marker, 10, marker.position, latlng2);
+        
+      });
+   var markersD = {};
+function close() {
+   alert("") ;
+    //infowindow.close();
+}
+firebase.database().ref().child("Drivers Info").on('value', function(snapshot) {
+ snapshot.forEach(function(childSnapshot) {
+     var lat1 = childSnapshot.child("lat").val();
+     var lng1 = childSnapshot.child("lng").val();
+     var id = childSnapshot.key;
+             firebase.database().ref().child("SignedDrivers").child(id).on('value', function(snapshot) {
+                             var drposition = {lat: parseFloat(lat1), lng: parseFloat(lng1)};
+                            var myLatLng1 = {lat: 17.451701665312275, lng: 78.53475641459227};
+var finallatlngD = new google.maps.LatLng( parseFloat(lat1),parseFloat(lng1));
+
+    var Driver = snapshot.child("username").val();
+                  var car = "M17.402,0H5.643C2.526,0,0,3.467,0,6.584v34.804c0,3.116,2.526,5.644,5.643,5.644h11.759c3.116,0,5.644-2.527,5.644-5.644 V6.584C23.044,3.467,20.518,0,17.402,0z M22.057,14.188v11.665l-2.729,0.351v-4.806L22.057,14.188z M20.625,10.773 c-1.016,3.9-2.219,8.51-2.219,8.51H4.638l-2.222-8.51C2.417,10.773,11.3,7.755,20.625,10.773z M3.748,21.713v4.492l-2.73-0.349 V14.502L3.748,21.713z M1.018,37.938V27.579l2.73,0.343v8.196L1.018,37.938z M2.575,40.882l2.218-3.336h13.771l2.219,3.336H2.575z M19.328,35.805v-7.872l2.729-0.355v10.048L19.328,35.805z";
+
+   /*var car = "M73,33.201V17c0-8.8-7.2-16-16-16H43c-8.8,0-16,7.2-16,16v16.201c-4.564,0.927-8,4.962-8,9.799h8v40c0,8.8,7.2,16,16,16h14  c8.8,0,16-7.2,16-16V43h8C81,38.163,77.564,34.127,73,33.201z M50,86c-12,0-18-4-18-4l4-12c0,0,6,1,14,1s14-1,14-1l4,12  C68,82,62,86,50,86z M64,43c0,0-6-1-14-1s-14,1-14,1l-4-12c0,0,6-4,18-4s18,4,18,4L64,43z";*/
+var icon = {
+path: car,
+scale: .7,
+strokeColor: 'white',
+strokeWeight: .10,
+fillOpacity: 1,
+fillColor: '#000000',
+offset: '5%',
+anchor: new google.maps.Point(10, 25)
+};
+    
+                 if(markersD[id] != null)
+   { 
+                 
+var icon = {
+path: car,
+scale: .7,
+strokeColor: 'white',
+strokeWeight: .10,
+fillOpacity: 1,
+fillColor: '#000000',
+offset: '5%',
+rotation :google.maps.geometry.spherical.computeHeading(markersD[id].position, finallatlngD),
+anchor: new google.maps.Point(10, 25)
+};
+markersD[id].setIcon(icon);
+      // alert(markers[id].position);
+        animatedMove(markersD[id], 10, markersD[id].position, finallatlngD);
+   }
+else{
+    //var icon = 'images/car.png';
+     
+       markersD[id] = new google.maps.Marker({
+            map: map,
+            id: id,
+            icon : icon,
+            title: "Driver : " +Driver,
+            animation: google.maps.Animation.DROP,
+            position: drposition
+        });
+
+
+        var content = "Driver : " +Driver;
+
+        var infowindow = new google.maps.InfoWindow();
+
+       google.maps.event.addListener(markersD[id],'click', (function(marker,content,infowindow){ 
+           return function() {
+               infowindow.setContent(content);
+               infowindow.open(map,markersD[id]);
+           };
+       })(markersD[id],content,infowindow));
+}
+ });
+});
+            
+    // animatedMove(marker, 10, marker.position, latlng2);
+        
+      });
+      
+   
+ firebase.database().ref().child("Admin").on('value',function(snapshot) {
+        password = snapshot.child("password").val();
+                              });
+    
+function myFunction() {
+  /*  firebase.database().ref('Admin').update(updates,function(error) {
+    if (error) {
+            window.alert("Faield "+ error.message);
+    } else {
+      window.location.href = "login.html";
+    }
+  });*/
+}
+     firebase.database().ref().child("SOS").on('value',function(snapshot) {
+        var CNum = snapshot.child("Number").val();
+        var SNum = snapshot.child("SmsNumber").val();
+       current.innerHTML = "Current calling number is "+CNum + " and Sms number  is "+SNum;
+           
+       });
+    
+</script>
+          <script  src="notijs.js"></script>
+
+  </body>
+</html>

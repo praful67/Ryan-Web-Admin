@@ -1,0 +1,199 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Login</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/logo.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+   
+    <link rel="apple-touch-icon-precomposed" href="images/logo.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/logo.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/logo.png">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+    <link rel="stylesheet" href="styles.css">
+   
+  </head>
+  <body>
+   
+      
+       <dialog class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Login</h4>
+    <div class="mdl-dialog__content">
+      <!-- Textfield with Floating Label -->
+
+<form action="#">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="text"  id="username">
+    <label class="mdl-textfield__label" for="username">Username</label>
+  </div>
+
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="password" id="password">
+    <label class="mdl-textfield__label" for="password">Password</label>
+  </div>
+
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button signin" 
+         id="signin">Sign In</button>
+        <div class="mdl-spinner mdl-js-spinner is-active" id="loading"></div>
+    </div>
+        </form>
+    </div>
+
+  </dialog>
+      
+    
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+      
+      
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+
+
+<script type='text/javascript'>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCpRhD92WfydDVVHsct8Lj7GezcPluxs7E",
+    authDomain: "fireapp-85b69.firebaseapp.com",
+    databaseURL: "https://fireapp-85b69.firebaseio.com",
+    projectId: "fireapp-85b69",
+    storageBucket: "fireapp-85b69.appspot.com",
+    messagingSenderId: "94375315405"
+  };
+  firebase.initializeApp(config);
+     firebase.database().ref('Admin')
+    .on('value', function(snapshot) {
+ 
+      if(snapshot != null){
+              var valueU = snapshot.child("logged").val();
+                 
+             if(valueU != null)
+                  {
+                      if(valueU == "yes")
+                          {
+      window.location.href = "index.html";
+                          }
+                  }
+     
+         
+  }
+             
+              
+});
+var username = document.getElementById("username");
+var password = document.getElementById("password");
+     var dialog = document.querySelector('dialog');
+   var signin = document.getElementById("signin");
+   var loading = document.getElementById("loading");
+    
+          loading.style.visibility = "hidden";
+          dialog.showModal();
+         
+    dialog.querySelector('.signin').addEventListener('click', function() {
+        signin.style.display = "none";
+        loading.style.visibility = "visible";
+        loading.style.display = "block";
+        if(username.value== "" || password.value == "")
+        {
+            window.alert("Please fill up all");
+             loading.style.display = "none";
+        signin.style.visibility = "visible";
+        signin.style.display = "block";
+        }else{
+             firebase.database().ref('Admin')
+    .on('value', function(snapshot) {
+ 
+              var valueU = snapshot.child("name").val();
+              var valuep = snapshot.child("password").val();
+                 
+             if(valueU != null)
+                  {
+                      if(valueU == username.value)
+                          {
+                              if(valuep == password.value)
+                                  {
+                                      var updates = {};
+  updates['logged'] = "yes";
+                                     firebase.database().ref('Admin/').update(updates
+  ,function(error) {
+    if (error) {
+            window.alert("Faield "+ error.message);
+    } else {
+                     loading.style.display = "none";
+      window.location.href = "index.html";
+    }
+  });
+                                  }else{
+                                      loading.style.display = "none";
+        signin.style.visibility = "visible";
+        signin.style.display = "block";
+                                      window.alert("Invalid Password");
+                                  }
+                          }else{
+                              loading.style.display = "none";
+        signin.style.visibility = "visible";
+        signin.style.display = "block";
+                              window.alert("Invalid Username");
+                          }
+                  }
+              else{
+                                     writeUserData(username.value , password.value)
+
+              }
+             
+              
+});
+
+        }
+    });
+    
+    function writeUserData(username, password) {
+  firebase.database().ref('Admin/').set({
+    name: username,
+    password : password,
+      logged : "yes",
+      
+  },function(error) {
+    if (error) {
+            window.alert("Faield "+ error.message);
+    } else {
+                     loading.style.display = "none";
+      window.location.href = "index.html";
+    }
+  });
+}
+</script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

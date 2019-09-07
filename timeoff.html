@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Ryan Cab Admin</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/logo.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/logo.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/logo.png">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+    <link rel="stylesheet" href="styles.css">
+                                              <link rel="stylesheet" href="noticss.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      <style>
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: aquamarine; 
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: aqua; 
+}
+</style>
+  </head>
+  <body>
+       <dialog class="mdl-dialog">
+    <div class="mdl-dialog__content">
+      <h6>
+       Do you want to move this to Past ? 
+      </h6>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button ok" id="ok">Ok</button>
+                        <div class="mdl-spinner mdl-js-spinner is-active" id="loading"></div>
+
+      <button type="button" class="mdl-button close" >Cancel</button>
+
+        
+    </div>
+  </dialog>
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+        <a href="index.html">
+        <i class="mdl-color-text--white material-icons" 
+           style = "margin-right: 20px;
+                    margin-left: -50px;
+                    margin-top: 5px;
+                    font-size: 30px;">keyboard_backspace
+</i> </a>
+      <span class="mdl-layout-title">Employees Time Offs </span>
+          <div class="mdl-layout-spacer"></div>
+        
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+            <i class="material-icons" >arrow_right</i>
+          </button>
+        
+                   
+<script>
+    $("#hdrbtn").click(function(){
+                       window.location.href = "pasttimeoff.html";
+
+});
+   
+$(document).ready(function(){
+  $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+    
+});
+    
+    $(document).ready(function () {
+                $('th').each(function (col) {
+                    $(this).hover(
+                            function () {
+                                $(this).addClass('focus');
+                            },
+                            function () {
+                                $(this).removeClass('focus');
+                            }
+                    );
+                    $(this).click(function () {
+                        if ($(this).is('.asc')) {
+                            $(this).removeClass('asc');
+                            $(this).addClass('desc selected');
+                            sortOrder = -1;
+                        } else {
+                            $(this).addClass('asc selected');
+                            $(this).removeClass('desc');
+                            sortOrder = 1;
+                        }
+                        $(this).siblings().removeClass('asc selected');
+                        $(this).siblings().removeClass('desc selected');
+                        var arrData = $('table').find('tbody >tr:has(td)').get();
+                        arrData.sort(function (a, b) {
+                            var val1 = $(a).children('td').eq(col).text().toUpperCase();
+                            var val2 = $(b).children('td').eq(col).text().toUpperCase();
+                            if ($.isNumeric(val1) && $.isNumeric(val2))
+                                return sortOrder == 1 ? val1 - val2 : val2 - val1;
+                            else
+                                return (val1 < val2) ? -sortOrder : (val1 > val2) ? sortOrder : 0;
+                        });
+                        $.each(arrData, function (index, row) {
+                            $('tbody').append(row);
+                        });
+                    });
+                });
+            });
+</script>
+      <!-- Add spacer, to align navigation to the right -->
+     
+    </div>
+  </header>
+ 
+  <main class="mdl-layout__content">
+    <div class="page-content">
+         <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" style="margin: auto;
+                                                                 margin-left: 130px;">
+             
+            <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+              <i class="material-icons">search</i>
+            </label>
+            <div class="mdl-textfield__expandable-holder"  >
+              <input class="mdl-textfield__input" type="text" id="search" placeholder="Search..">
+              <label class="mdl-textfield__label" for="search">Enter your query...</label>
+            </div>
+          </div>
+     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin: auto;width: 90%;overflow-x:scroll;" id="myTable">
+  <thead>
+    <tr>
+      <th  style="text-align:center;vertical-align:middle;cursor:pointer;">Username</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Message</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Date of Submit</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Time Off Dates</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">ID</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="tablebody">
+   
+  </tbody>
+</table>
+      </div>
+  </main>
+</div>
+          <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    
+      
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+          <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+   
+<script>
+    $(document).ready(function(){
+
+    // code to read selected table row cell data (values).
+    $("#myTable").on('click','.name ',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+         
+         var col3=currentRow.find("td:eq(4)").text(); // get current row 3rd TD
+        
+            window.localStorage.setItem("employeeid" , col3);
+        window.location.href = "employeedetails.html";
+    });
+         $("#myTable").on('click','.comment ',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+         
+         var col3=currentRow.find("td:eq(1)").text(); // get current row 3rd TD
+        
+          alert(col3);
+    });
+        $("#myTable").on('click','.btn ',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+         
+         var col3=currentRow.find("td:eq(4)").text(); // get current row 3rd TD
+         var nameP=currentRow.find("td:eq(0)").text(); // get current row 3rd TD
+         var messageP=currentRow.find("td:eq(1)").text(); // get current row 3rd TD
+         var dateofsubmitP=currentRow.find("td:eq(2)").text(); // get current row 3rd TD
+         var datesP=currentRow.find("td:eq(3)").text(); // get current row 3rd TD
+         var idp=currentRow.find("td:eq(4)").text(); // get current row 3rd TD
+        
+              var dialog = document.querySelector('dialog');
+   var loading = document.getElementById("loading");
+            loading.style.display = "none";
+          loading.style.visibility = "hidden";
+   
+         dialog.showModal();
+   var ok = document.getElementById("ok");
+
+    dialog.querySelector('.close').addEventListener('click', function() {
+         
+     dialog.close();
+    });
+             dialog.querySelector('.ok').addEventListener('click', function() {
+    
+                  ok.style.display = "none";
+       
+                 loading.style.visibility = "visible";
+       
+                 loading.style.display = "block";
+      
+                 
+                  firebase.database().ref().child("PastTImeoffs").child(col3).set({
+    
+                      name: nameP,
+   
+                      date: datesP,
+   
+                      message : messageP,
+                      id : idp,
+                      dateofsubmit:dateofsubmitP
+ 
+                  }).then(function() {
+   loading.style.display = "none";
+        ok.style.visibility = "visible";
+        ok.style.display = "block";
+                     dialog.close();
+   
+                 }).catch(function(error) {
+        
+                     alert("Remove failed: " + error.message);
+   
+                 });
+    
+                 
+                 firebase.database().ref().child("Employee'sTimeoffs1").child(col3).remove();
+             });
+   
+         // alert(col3);
+    });
+        
+});
+</script>
+    
+    
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCpRhD92WfydDVVHsct8Lj7GezcPluxs7E",
+    authDomain: "fireapp-85b69.firebaseapp.com",
+    databaseURL: "https://fireapp-85b69.firebaseio.com",
+    projectId: "fireapp-85b69",
+    storageBucket: "fireapp-85b69.appspot.com",
+    messagingSenderId: "94375315405"
+  };
+  firebase.initializeApp(config);
+    firebase.database().ref('Admin')
+    .on('value', function(snapshot) {
+      if(snapshot != null){
+              var valueU = snapshot.child("logged").val();
+             if(valueU != null)
+                  {
+                      if(valueU == "no")
+                          {
+      window.location.href = "login.html";
+                          }
+                  }
+      else{
+                window.location.href = "login.html";
+      }
+  }
+});
+    
+     firebase.database().ref().child("Employee'sTimeoffs1").child("number").set("0");
+
+var table = document.getElementById("tablebody");
+firebase.database().ref().child("Employee'sTimeoffs1").on('value', function(snapshot) {
+        $("#tablebody").empty();
+
+ snapshot.forEach(function(childSnapshot) {
+     
+     var username = childSnapshot.child("name").val();
+     var message = childSnapshot.child("message").val();
+     var dates = childSnapshot.child("date").val();
+     var id = childSnapshot.child("id").val();
+     var dateofsubmit = childSnapshot.child("dateofsubmit").val();
+     if(username != null){
+     $("#tablebody").append('<tr><td style="text-align:center;vertical-align:middle;cursor:pointer;" class="name">'+username+'</td><td style="text-align:center;vertical-align:middle;cursor:pointer;" class="comment">'+message+'</td><td style="text-align:center;vertical-align:middle;">'+dateofsubmit+'</td><td style="text-align:center;vertical-align:middle;">'+dates+'</td><td style="text-align:center;vertical-align:middle;">'+id+'</td><td><button class=" btn mdl-button mdl-js-button mdl-js-ripple-effect">'+"DONE" +'</button></td></tr>');
+               }
+  
+    
+ });
+});
+      </script>
+                <script  src="notijs.js"></script>
+
+  </body>
+</html>

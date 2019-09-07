@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Ryan Cab Admin</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/logo.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/logo.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/logo.png">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+                  <link rel="stylesheet" href="noticss.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      
+      
+      <style>
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: aquamarine; 
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: aqua; 
+}
+          
+</style>
+      <style>
+.demo-card-wide.mdl-card {
+  width: 512px;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../assets/demos/welcome_card.jpg') center / cover;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+</style>
+
+  </head>
+    
+  <body>
+         <dialog class="mdl-dialog">
+    <div class="mdl-dialog__content">
+      <h5>
+       Select One from below
+      </h5>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button logout" style="width: 100%;">Logout</button>
+      <button type="button" class="mdl-button login"style="width: 100%;margin-top: 5px;" >Login</button>
+      <button type="button" class="mdl-button close" ><i class="material-icons">close</i></button>
+
+        
+    </div>
+  </dialog>
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+        <a onclick="goBack()" style="cursor: pointer;">
+        <i class="mdl-color-text--white material-icons" 
+           style = "margin-right: 20px;
+                    margin-left: -50px;
+                    margin-top: 5px;
+                    font-size: 30px;">keyboard_backspace
+</i> </a>
+        
+<script>
+function goBack() {
+    window.history.back();
+}
+</script> 
+      <span class="mdl-layout-title">Edit Roster Details</span>
+        <div class="mdl-layout-spacer"></div>
+        
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="done">
+            <i class="material-icons" >check</i>
+          </button>
+<script>
+$(document).ready(function(){
+  $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+ 
+    $("#done").click(function(){
+       window.location.href = "atonesight.html";
+    });
+ 
+});
+    
+    
+    $(document).ready(function () {
+                $('th').each(function (col) {
+                    $(this).hover(
+                            function () {
+                                $(this).addClass('focus');
+                            },
+                            function () {
+                                $(this).removeClass('focus');
+                            }
+                    );
+                    $(this).click(function () {
+                        if ($(this).is('.asc')) {
+                            $(this).removeClass('asc');
+                            $(this).addClass('desc selected');
+                            sortOrder = -1;
+                        } else {
+                            $(this).addClass('asc selected');
+                            $(this).removeClass('desc');
+                            sortOrder = 1;
+                        }
+                        $(this).siblings().removeClass('asc selected');
+                        $(this).siblings().removeClass('desc selected');
+                        var arrData = $('table').find('tbody >tr:has(td)').get();
+                        arrData.sort(function (a, b) {
+                            var val1 = $(a).children('td').eq(col).text().toUpperCase();
+                            var val2 = $(b).children('td').eq(col).text().toUpperCase();
+                            if ($.isNumeric(val1) && $.isNumeric(val2))
+                                return sortOrder == 1 ? val1 - val2 : val2 - val1;
+                            else
+                                return (val1 < val2) ? -sortOrder : (val1 > val2) ? sortOrder : 0;
+                        });
+                        $.each(arrData, function (index, row) {
+                            $('tbody').append(row);
+                        });
+                    });
+                });
+            });
+</script>
+     
+    </div>
+  </header>
+ 
+  <main class="mdl-layout__content">
+
+    <div class="page-content">
+
+         <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" style="margin: auto;
+                                                                 margin-left: 40px;">
+             
+            <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+              <i class="material-icons">search</i>
+            </label>
+            <div class="mdl-textfield__expandable-holder"  >
+              <input class="mdl-textfield__input" type="text" id="search" placeholder="Search..">
+              <label class="mdl-textfield__label" for="search">Enter your query...</label>
+            </div>
+          </div>
+        <div class="row" style="width: 100%;">
+        
+            <div class="col-md-12">
+             
+     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin:auto;display: block;overflow-x: scroll;" id="myTable">
+  <thead>
+    <tr>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Name</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Status</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Home Distance from Office</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Pick up</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Change Pick up</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Pick up Time</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Change Pick up Time</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Time Off</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">Cancel Time Off</th>
+      <th style="text-align:center;vertical-align:middle;cursor:pointer;">ID</th>
+    </tr>
+  </thead>
+  <tbody id="tablebody">
+   
+  </tbody>
+</table></div>
+            
+        </div>
+       
+ 
+      </div>
+  </main>
+</div>
+          <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    
+      
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+          <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+   
+<script>
+    $(document).ready(function(){
+
+        $("#myTable").on('click','.name',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+         
+         var col=currentRow.find("td:eq(6)").text(); // get current row 3rd TD
+       window.localStorage.setItem("employeeid", col);
+       window.location.href = "employeedetails.html";
+         
+    });
+       
+         $("#myTable").on('click','.confirmT',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+
+         //var col=currentRow.find("td:eq(6) input[type='time']").val(); 
+             var inputEle = currentRow.find("td:eq(6) input[type='time']").val();
+          var timeSplit = inputEle.split(':'),
+    hours,
+    minutes,
+    meridian;
+  hours = timeSplit[0];
+  minutes = timeSplit[1];
+  if (hours > 12) {
+    meridian = 'PM';
+    hours -= 12;
+      if(hours <10)
+          {
+            hours = "0"+hours;  
+          }
+  } else if (hours < 12) {
+    meridian = 'AM';
+    if (hours == 0) {
+      hours = 12;
+    }
+  } else {
+    meridian = 'PM';
+  }
+        var pickuptime = hours + ':' + minutes + ' ' + meridian;
+             var id = currentRow.find("td:eq(9)").text();
+             var emp = currentRow.find("td:eq(0)").text();
+              firebase.database().ref().child("Employeespickuptimes").child(id).set({
+            
+            time :pickuptime
+                
+            }).then(function() {
+   
+                     alert("Edited the pick up time of " +emp);
+
+
+                 }).catch(function(error) {
+        
+                     alert("Failed: " + error.message);
+   
+                 });
+
+                
+         });
+         $("#myTable").on('click','.confirmP',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+var id = currentRow.find("td:eq(9)").text();
+var emp = currentRow.find("td:eq(0)").text();
+         var col=currentRow.find("td:eq(4) input[type='number']").val(); 
+          firebase.database().ref().child("Final Rank of employee").child(id).set({
+            
+            Rank :col
+                
+            }).then(function() {
+    firebase.database().ref().child("RanksfordistanceCAl").child(rosterid).child(id).set({
+            
+            Rank :col
+                
+            });
+                     alert("Changed the pick up of " +emp);
+
+
+                 }).catch(function(error) {
+        
+                     alert("Failed: " + error.message);
+   
+                 });
+                
+         });
+         $("#myTable").on('click','.cancelTimeoff',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+var id = currentRow.find("td:eq(9)").text();
+var emp = currentRow.find("td:eq(0)").text();
+          firebase.database().ref().child("StatusE").child(id).set({
+            
+            status :"Active"
+                
+            }).then(function() {
+               firebase.database().ref().child("CancelledTimeoff").child(id).set({
+            
+            timeoff :"cancelled"
+                
+            });
+                     alert("Cancelled the time off of " +emp);
+
+
+                 }).catch(function(error) {
+        
+                     alert("Failed: " + error.message);
+   
+                 });
+                
+         });
+        
+        
+        
+});
+</script>
+    
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCpRhD92WfydDVVHsct8Lj7GezcPluxs7E",
+    authDomain: "fireapp-85b69.firebaseapp.com",
+    databaseURL: "https://fireapp-85b69.firebaseio.com",
+    projectId: "fireapp-85b69",
+    storageBucket: "fireapp-85b69.appspot.com",
+    messagingSenderId: "94375315405"
+  };
+  firebase.initializeApp(config);
+    firebase.database().ref('Admin')
+    .on('value', function(snapshot) {
+      if(snapshot != null){
+              var valueU = snapshot.child("logged").val();
+             if(valueU != null)
+                  {
+                      if(valueU == "no")
+                          {
+      window.location.href = "login.html";
+                          }
+                  }
+      else{
+                window.location.href = "login.html";
+      }
+  }
+});
+var listid = localStorage.getItem("listid");
+
+var rosterid = localStorage.getItem("rosterid");
+
+var table = document.getElementById("tablebody");
+    
+
+firebase.database().ref().child("Employee's Car").on('value', function(snapshot) {
+
+    $("#tablebody").empty();
+ snapshot.forEach(function(childSnapshot) {
+     
+     var checkselection = childSnapshot.child("checkselection").val();
+     var rosterid1 = childSnapshot.child("car id").val();
+     var id = childSnapshot.key;   
+     if(rosterid1 == rosterid)
+         {
+             if(checkselection == "selected")
+                 {
+
+firebase.database().ref().child("Final Ordered Employees").child(id).on('value' , function(snapshot1) {
+    
+     var username = snapshot1.child("name").val();
+     var distance = snapshot1.child("distance").val();
+     var time = snapshot1.child("time").val();
+     var id = snapshot1.child("id").val();
+     var DT = distance + time;
+firebase.database().ref().child("Final Rank of employee").child(id).on('value', function(snapshot2) {
+
+     var pickup = snapshot2.child("Rank").val();
+    var status ="";
+    var timeoff = "";
+    firebase.database().ref().child("StatusE").child(id).on('value', function(snapshot) {
+                if(snapshot.child("status") != null)
+                    {
+                        
+                          if(snapshot.child("status").val() != null)
+                              {
+            if(snapshot.child("status").val() != "Active")
+                {
+                   timeoff = snapshot.child("status").val();
+                }
+               
+                    }
+                    }
+            });
+     firebase.database().ref().child("checkinandout").child(id).on('value', function(snapshot) {
+                if(snapshot.child("status") != null)
+                    {
+                        var timeC = snapshot.child("time").val();
+                        
+            if(snapshot.child("status").val() == "checkedin")
+                {
+                    status = "Checked In at "+timeC;
+                    status.style.color = "#1cbc57";
+                }
+                else 
+                    {
+                     status = "Checked Out at "+timeC;
+                     status.style.color = "#ff0000";
+
+ 
+                    }
+                    }
+            });
+     
+    firebase.database().ref().child("Employeespickuptimes").child(id).on('value', function(snapshot3) {
+        
+        var pickuptime = snapshot3.child("time").val();
+           
+               $("#tablebody").append('<tr><td class="name" style="text-align:center;vertical-align:middle;cursor:pointer;">'+username+'</td><td style="text-align:center;vertical-align:middle;;">'+status+'</td><td style="text-align:center;vertical-align:middle;;">'+DT+'</td><td style="text-align:center;vertical-align:middle;">'+pickup+'</td><td><input style = "width:100px; "type="number"class="pickup"/><button class="confirmP mdl-button mdl-js-button mdl-js-ripple-effect">'+"Confirm Pickup" +'</button></td></td><td style="text-align:center;vertical-align:middle;">'+pickuptime+'</td><td><input style = "width:100px; "type="time" class="pickuptime" id="pickuptime"/><button class="confirmT mdl-button mdl-js-button mdl-js-ripple-effect">'+"Confirm time" +'</button></td><td class = "timeoff" style="text-align:center;vertical-align:middle;cursor:pointer;">'+timeoff+'</td><td class = "timeoff" style="text-align:center;vertical-align:middle;cursor:pointer;"><button class="cancelTimeoff mdl-button mdl-js-button mdl-js-ripple-effect">'+"Cancel Time Off" +'</button></td><td style="text-align:center;vertical-align:middle;">'+id+'</td></tr>');
+   
+            });
+      
+
+          });
+       });
+ }
+         }
+      
+ });
+});
+    </script>
+          <script  src="notijs.js"></script>
+
+      
+  </body>
+</html>

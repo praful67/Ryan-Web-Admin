@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Ryan Cab Admin</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/logo.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/logo.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/logo.png">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+                                                     <link rel="stylesheet" href="noticss.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      
+      
+      <style>
+          #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      
+</style>
+
+  </head>
+    
+  <body>
+        
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+        <a onclick="goBack()" style="cursor: pointer;">
+        <i class="mdl-color-text--white material-icons" 
+           style = "margin-right: 20px;
+                    margin-left: -50px;
+                    margin-top: 5px;
+                    font-size: 30px;">keyboard_backspace
+</i> </a>
+        
+<script>
+function goBack() {
+    window.history.back();
+}
+</script> 
+      <span class="mdl-layout-title">Update Emp Map</span>
+       
+                   
+ 
+    </div>
+  </header>
+                 
+  
+ <div id="map">
+        
+        </div>
+    <script>
+      var map;
+           var centerOffice = {lat: 17.434810272796604, lng: 78.38469553738832};
+var centerOffice = new google.maps.LatLng(17.434810272796604, 78.38469553738832);
+
+        function CenterControl(controlDiv, map) {
+
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '22px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to recenter the map';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '38px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlText.innerHTML = 'Center Map';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function() {
+             map.setZoom(15);
+          map.panTo(centerOffice);
+        });
+        }
+      function initMap() {
+          var demo = {lat: 17.451701665312275, lng: 78.53475641459227};
+          var demolatlng = new google.maps.LatLng(17.451701665312275, 80.93475641459227);
+          
+          map = new google.maps.Map(document.getElementById('map'), {
+          center: centerOffice,
+          zoom: 10
+          });
+          var marker = new google.maps.Marker({
+            map: map, 
+            title: "Office",
+              icon :'images/office.png',
+             animation: google.maps.Animation.DROP,
+            position: centerOffice
+        });
+           var content = 'MAIN OFFICE';
+
+        var infowindow = new google.maps.InfoWindow();
+
+       google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+           return function() {
+            
+        content.onclick = function(){alert(marker.title)};
+               infowindow.setContent(content);
+               infowindow.open(map,marker);
+           };
+       })(marker,content,infowindow));
+      
+        var centerControlDiv = document.createElement('div');
+        var centerControl = new CenterControl(centerControlDiv, map);
+
+        centerControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+     
+}
+        google.maps.event.addDomListener(window, 'load', initMap);
+   </script>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaOwEHOt92dT2asjFuDUqzYMhbwB2WjFI&callback=initMap"
+    async defer></script>
+            
+
+ 
+</div>
+          <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    
+      
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+          <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+  
+    
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCpRhD92WfydDVVHsct8Lj7GezcPluxs7E",
+    authDomain: "fireapp-85b69.firebaseapp.com",
+    databaseURL: "https://fireapp-85b69.firebaseio.com",
+    projectId: "fireapp-85b69",
+    storageBucket: "fireapp-85b69.appspot.com",
+    messagingSenderId: "94375315405"
+  };
+  firebase.initializeApp(config);
+    firebase.database().ref('Admin')
+    .on('value', function(snapshot) {
+      if(snapshot != null){
+              var valueU = snapshot.child("logged").val();
+             if(valueU != null)
+                  {
+                      if(valueU == "no")
+                          {
+      window.location.href = "login.html";
+                          }
+                  }
+      else{
+                window.location.href = "login.html";
+      }
+  }
+});
+var listid = localStorage.getItem("listid");
+
+var rosterid = localStorage.getItem("rosterid");
+
+     var markers = {};
+     firebase.database().ref().child("SignedEmployees").on('value', function(snapshot) {
+         snapshot.forEach(function(childsnapshot){
+     var lat1 = childsnapshot.child("addresslat").val();
+     var lng1 = childsnapshot.child("addresslng").val();
+     var id = childsnapshot.child("id").val();
+     var username = childsnapshot.child("username").val();
+
+            
+     firebase.database().ref().child("Employee's Car").child(id).on('value', function(snapshot) {
+           var checkselection = snapshot.child("checkselection").val();
+     var rosterid1 = snapshot.child("car id").val();
+         if(rosterid1 != null)
+             {
+                 
+    if(rosterid1 == rosterid)
+         {
+             if(checkselection == "selected")
+                 {
+               
+    var finallatlng = new google.maps.LatLng( parseFloat(lat1),parseFloat(lng1));
+        var empname = username;
+           markers[id] = new google.maps.Marker({
+                map: map,
+                id: id,
+                title: "Employee : " +empname,
+               icon :'https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=C&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1',
+                animation: google.maps.Animation.DROP,
+                position: finallatlng
+            });
+            var content = "Employee : " +empname + " Selected by this roster";
+
+            var infowindow = new google.maps.InfoWindow();
+
+           google.maps.event.addListener(markers[id],'click', (function(marker,content,infowindow){ 
+               return function() {
+                   infowindow.setContent(content);
+                   infowindow.open(map,markers[id]);
+
+               };
+           })(markers[id],content,infowindow));
+
+                 }
+         }
+         else{
+             
+              var finallatlng = new google.maps.LatLng( parseFloat(lat1),parseFloat(lng1));
+        var empname = username;
+           markers[id] = new google.maps.Marker({
+                map: map,
+                id: id,
+                title: "Employee : " +empname,
+               icon :'https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1',
+             animation: google.maps.Animation.DROP,
+                position: finallatlng
+            });
+            var content = "Employee : " +empname + " Selected by Other roster";
+
+            var infowindow = new google.maps.InfoWindow();
+
+           google.maps.event.addListener(markers[id],'click', (function(marker,content,infowindow){ 
+               return function() {
+                   infowindow.setContent(content);
+                   infowindow.open(map,markers[id]);
+
+               };
+           })(markers[id],content,infowindow));
+
+             
+         }
+      }else{
+             
+              var finallatlng = new google.maps.LatLng( parseFloat(lat1),parseFloat(lng1));
+        var empname = username;
+           markers[id] = new google.maps.Marker({
+                map: map,
+                id: id,
+                title: "Employee : " +empname,
+                animation: google.maps.Animation.DROP,
+                position: finallatlng
+            });
+            var content = "Employee : " +empname + " Not Selected";
+
+            var infowindow = new google.maps.InfoWindow();
+
+           google.maps.event.addListener(markers[id],'click', (function(marker,content,infowindow){ 
+               return function() {
+                   infowindow.setContent(content);
+                   infowindow.open(map,markers[id]);
+
+               };
+           })(markers[id],content,infowindow));
+
+      }
+
+     });
+    
+                 });
+      });
+   /*   var emposition = {lat: parseFloat(lat1), lng: parseFloat(lng1)};
+                                var myLatLng1 = {lat: 17.451701665312275, lng: 78.53475641459227};*/
+    
+      </script>
+                <script  src="notijs.js"></script>
+      
+  </body>
+</html>
+
+                           

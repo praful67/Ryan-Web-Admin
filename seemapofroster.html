@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Ryan Cab Admin</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/logo.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/logo.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/logo.png">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+                                       <link rel="stylesheet" href="noticss.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      
+      
+      <style>
+          #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+         #floating-panel {
+        position: absolute;
+        top: 62px;
+        left: 15%;
+        z-index: 5;
+        padding: 5px;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        padding-left: 10px;
+      }
+        
+</style>
+
+  </head>
+    
+  <body>
+         <dialog class="mdl-dialog">
+    <div class="mdl-dialog__content">
+      <h5>
+       Select One from below
+      </h5>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button logout" style="width: 100%;">Logout</button>
+      <button type="button" class="mdl-button login"style="width: 100%;margin-top: 5px;" >Login</button>
+      <button type="button" class="mdl-button close" ><i class="material-icons">close</i></button>
+
+        
+    </div>
+  </dialog>
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+        <a onclick="goBack()" style="cursor: pointer;">
+        <i class="mdl-color-text--white material-icons" 
+           style = "margin-right: 20px;
+                    margin-left: -50px;
+                    margin-top: 5px;
+                    font-size: 30px;">keyboard_backspace
+</i> </a>
+        
+<script>
+function goBack() {
+    window.history.back();
+}
+</script> 
+      <span class="mdl-layout-title">Roster Map</span>
+       
+                   
+ 
+    </div>
+  </header>
+                 
+    <div id="floating-panel">
+        <p id="myOptiDIV" onclick="optimizefun()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Optimize</p>
+
+   <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" id="route">
+  <i class="material-icons" >map</i>
+</button>
+                <p style="font-weight: 500;background-color: white;margin-top: 5px;">Total Distance and Time : <span id="total"></span></p>
+</div>
+ <div id="map">
+        
+        </div>
+           
+    <script>
+        var optimi = false;
+        
+        function optimizefun() {
+    var x = document.getElementById("myOptiDIV");
+    if (x.innerHTML === "Optimize") {
+        optimi = true;
+        x.innerHTML = "Optimized";
+    } else {
+        optimi = false;
+        x.innerHTML = "Optimize";
+    }
+}
+      var map;
+           var centerOffice = {lat: 17.434810272796604, lng: 78.38469553738832};
+var centerOffice = new google.maps.LatLng(17.434810272796604, 78.38469553738832);
+
+        function CenterControl(controlDiv, map) {
+
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '22px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to recenter the map';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '38px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlText.innerHTML = 'Center Map';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function() {
+             map.setZoom(15);
+          map.panTo(centerOffice);
+        });
+        }
+      function initMap() {
+          var demo = {lat: 17.451701665312275, lng: 78.53475641459227};
+          var demolatlng = new google.maps.LatLng(17.451701665312275, 80.93475641459227);
+          
+          map = new google.maps.Map(document.getElementById('map'), {
+          center: centerOffice,
+          zoom: 10
+          });
+          var marker = new google.maps.Marker({
+            map: map, 
+            title: "Office",
+              icon :'images/office.png',
+             /* icon :'https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=M&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1',
+             */ /*icon :'https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1',
+           */  
+              
+            animation: google.maps.Animation.DROP,
+            position: centerOffice
+        });
+           var content = 'MAIN OFFICE';
+
+        var infowindow = new google.maps.InfoWindow();
+
+       google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+           return function() {
+            
+        content.onclick = function(){alert(marker.title)};
+               infowindow.setContent(content);
+               infowindow.open(map,marker);
+           };
+       })(marker,content,infowindow));
+      
+        var centerControlDiv = document.createElement('div');
+        var centerControl = new CenterControl(centerControlDiv, map);
+
+        centerControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+     
+}
+        google.maps.event.addDomListener(window, 'load', initMap);
+
+function animatedMove(marker, n, current, moveto) {
+  var lat = current.lat();
+  var lng = current.lng();
+
+  var deltalat = (moveto.lat() - current.lat()) / 100;
+  var deltalng = (moveto.lng() - current.lng()) / 100;
+
+  for (var i = 0; i < 100; i++) {
+    (function(n) {
+      setTimeout(
+        function() {
+          var lat = marker.position.lat();
+          var lng = marker.position.lng();
+
+          lat += deltalat;
+          lng += deltalng;
+          latlng = new google.maps.LatLng(lat, lng);
+          marker.setPosition(latlng);
+        }, 10 * n
+      );
+    })(i)
+  }
+}
+    </script>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaOwEHOt92dT2asjFuDUqzYMhbwB2WjFI&callback=initMap"
+    async defer></script>
+            
+
+ 
+</div>
+          <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    
+      
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+          <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+  
+    
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCpRhD92WfydDVVHsct8Lj7GezcPluxs7E",
+    authDomain: "fireapp-85b69.firebaseapp.com",
+    databaseURL: "https://fireapp-85b69.firebaseio.com",
+    projectId: "fireapp-85b69",
+    storageBucket: "fireapp-85b69.appspot.com",
+    messagingSenderId: "94375315405"
+  };
+  firebase.initializeApp(config);
+    firebase.database().ref('Admin')
+    .on('value', function(snapshot) {
+      if(snapshot != null){
+              var valueU = snapshot.child("logged").val();
+             if(valueU != null)
+                  {
+                      if(valueU == "no")
+                          {
+      window.location.href = "login.html";
+                          }
+                  }
+      else{
+                window.location.href = "login.html";
+      }
+  }
+});
+var listid = localStorage.getItem("listid");
+
+var rosterid = localStorage.getItem("rosterid");
+
+     var markers = {}; var i = 0; var latlng = [];
+firebase.database().ref().child("RanksfordistanceCAl").child(rosterid).orderByChild("Rank").on('value' , function(snapshot){
+    var i = 0; latlng = [];
+        snapshot.forEach(function(childSnapshot){
+
+               var eid = childSnapshot.key;
+        firebase.database().ref().child("SignedEmployees").child(eid).on('value', function(snapshot) {
+     var lat1 = snapshot.child("addresslat").val();
+     var lng1 = snapshot.child("addresslng").val();
+     var id = snapshot.child("id").val();
+            
+     firebase.database().ref().child("Employee's Car").child(id).on('value', function(snapshot) {
+           var checkselection = snapshot.child("checkselection").val();
+     var rosterid1 = snapshot.child("car id").val();
+         
+    if(rosterid1 == rosterid)
+         {
+             if(checkselection == "selected")
+                 {
+                     
+firebase.database().ref().child("Final Ordered Employees").child(id).on('value' , function(snapshot1) {
+    
+     var username = snapshot1.child("name").val();
+     var distance = snapshot1.child("distance").val();
+     var time = snapshot1.child("time").val();
+     var DT = distance + time;
+firebase.database().ref().child("Final Rank of employee").child(id).on('value', function(snapshot2) {
+
+     var pickup = snapshot2.child("Rank").val();
+    firebase.database().ref().child("Employeespickuptimes").child(id).on('value', function(snapshot3) {
+        
+        var pickuptime = snapshot3.child("time").val();
+           
+                  
+    var finallatlng = new google.maps.LatLng( parseFloat(lat1),parseFloat(lng1));
+latlng.push(finallatlng);
+        var empname = username;
+           markers[id] = new google.maps.Marker({
+                map: map,
+                id: id,
+                title: "Employee : " +empname,
+                animation: google.maps.Animation.DROP,
+                position: finallatlng
+            });
+            var content = "Employee : " +empname +"\n | "+DT + " from office" + "\n | Pick up "+pickup +" , "+ pickuptime;
+
+            var infowindow = new google.maps.InfoWindow();
+
+           google.maps.event.addListener(markers[id],'click', (function(marker,content,infowindow){ 
+               return function() {
+                   infowindow.setContent(content);
+                   infowindow.open(map,markers[id]);
+
+               };
+           })(markers[id],content,infowindow));
+
+            });
+
+          });
+       });
+
+                 }
+         }
+     });
+    
+        
+      });
+
+    
+              i++;
+ });
+      
+});
+    
+   //   directionsDisplay.setMap(map);
+
+     $("#route").click(function(){
+         
+           var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer({
+          draggable: true,
+          map: map,
+        });
+    
+     directionsDisplay.addListener('directions_changed', function() {
+          computeTotalDistance(directionsDisplay.getDirections());
+        });
+   
+         
+var i =0;
+ var waypts = [];
+        for (var i = 1; i < latlng.length; i++) {
+            waypts.push({
+              location: latlng[i],
+              stopover: true
+            });
+        }
+         
+                  alert("Showing Route");
+
+     var a = latlng[0];
+    var b = centerOffice;
+var individualdistime ="";
+         if(optimi){
+             directionsService.route({
+          origin: a,
+          destination: b,
+         waypoints: waypts,
+         optimizeWaypoints: true,
+         travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+              var total = 0;var time = 0;
+          var myroute = directionsDisplay.getDirections().routes[0];
+        for (var i = 0; i < myroute.legs.length; i++) {
+          total += myroute.legs[i].distance.value;
+                      time += myroute.legs[i].duration.value;
+
+            var time1 = secondsToHms(myroute.legs[i].duration.value);
+            var dist = myroute.legs[i].distance.value /1000 + " km";
+            individualdistime = individualdistime + "Pickup "+ parseFloat(i+1) +" to "+ parseFloat(parseFloat(i+1)+1) + " : "+ dist +" " +time1+"\n";
+        }
+        total = total / 1000;
+              var DT1 =parseInt(total) + ' km ' +secondsToHms(time) + "\n"+individualdistime;
+              firebase.database().ref().child("CarrideDTWeb").child(rosterid).set({
+                  DT : DT1
+              }).then(function() {
+   
+                 }).catch(function(error) {
+        
+                     alert("Failed: " + error.message);
+   
+                 });
+              
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+        
+  
+         }  else{
+     directionsService.route({
+          origin: a,
+          destination: b,
+         waypoints: waypts,
+         optimizeWaypoints: false,
+         travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+              var total = 0;var time = 0;
+          var myroute = directionsDisplay.getDirections().routes[0];
+        for (var i = 0; i < myroute.legs.length; i++) {
+          total += myroute.legs[i].distance.value;
+                      time += myroute.legs[i].duration.value;
+
+            var time1 = secondsToHms(myroute.legs[i].duration.value);
+            var dist = myroute.legs[i].distance.value /1000 + " km";
+            individualdistime = individualdistime + "Pickup "+ parseFloat(i+1) +" to "+ parseFloat(parseFloat(i+1)+1) + " : "+ dist +" " +time1+"\n";
+        }
+        total = total / 1000;
+              var DT1 = total + ' km ' +secondsToHms(time) + "\n"+individualdistime;
+              firebase.database().ref().child("CarrideDTWeb").child(rosterid).set({
+                  DT : DT1
+              }).then(function() {
+   
+                 }).catch(function(error) {
+        
+                     alert("Failed: " + error.message);
+   
+                 });
+              
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+        
+     }
+
+});
+  function computeTotalDistance(result) {
+      var individualdistime ="";
+        var total = 0;var time = 0;
+        var myroute = result.routes[0];
+        for (var i = 0; i < myroute.legs.length; i++) {
+          total += myroute.legs[i].distance.value;
+          time += myroute.legs[i].duration.value;
+            var time1 = secondsToHms(myroute.legs[i].duration.value);
+            var dist = myroute.legs[i].distance.value /1000 + " km";
+           individualdistime = individualdistime + "Pickup "+ parseFloat(i+1) +" to "+ parseFloat(parseFloat(i+1)+1) + " : "+ dist +" " +time1+"<br>";
+
+        }
+        total = total / 1000;
+    var totaltime =  secondsToHms(time);
+        document.getElementById('total').innerHTML = parseInt(total) + ' km ' +totaltime + "<br> "+individualdistime;
+      }
+function secondsToHms(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour " : " hours ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute " : " minutes ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return hDisplay + mDisplay; 
+}
+      </script>
+                <script  src="notijs.js"></script>
+   </body>
+    
+</html>
+<!--  /*   var emposition = {lat: parseFloat(lat1), lng: parseFloat(lng1)};
+                                var myLatLng1 = {lat: 17.451701665312275, lng: 78.53475641459227};*/
+ -->
+                          
